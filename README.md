@@ -17,7 +17,7 @@ Exam2_HRESolver_TransSymtr_CosHill.m
 
 Note：
 
-Folders 'ASA_wedge_kj/' and 'CosHill_kj/' contain the horizontal wavenumbers k_rj, eigenfunctions at the receiver depth, and mode excitation at the source depth for the wedge and canyon examples, respectively, with the reference solution stored in the associated folders. Running Exam1 and Exam2 direclty reproduces the results presented in Figs. 7-13 of the [JSV paper](https://doi.org/10.1016/j.jsv.2024.118617).
+Folders 'ASA_wedge_kj/' and 'CosHill_kj/' contain: 1) the horizontal wavenumbers k_rj, 2) eigenfunctions at the receiver depth, and 3)  mode excitation at the source depth for the wedge and canyon examples, respectively. Benchmark reference solution is archived in the associated folders. Execution of the MATLAB scripts Exam1.m and Exam2.m will regenerate all numerical results underlying Figures 7-13 in the [JSV paper](https://doi.org/10.1016/j.jsv.2024.118617).
 
 # Gaussian canyon case
 
@@ -27,7 +27,7 @@ Note：
 
 This demonstration reproduces Figs. 8 and 9 presented in [JASA 2021](https://pubs.aip.org/asa/jasa/article/150/2/1140/615453/A-three-dimensional-finite-difference-model-for) by Liu, et al, which is the 3D propagation over an underwater canyon. This case has also been demonstrated previously in [JASA 2019](https://pubs.aip.org/asa/jasa/article/146/3/2050/995175/Split-step-Pade-solver-for-three-dimensional) and [Appl. Sci 2020](https://www.mdpi.com/2076-3417/10/7/2393). The same parameters and geometry were adopted in this code as in these papers. 
 
-Folder 'Canyon_kj/' contains the horizontal wavenumbers k_rj, eigenfunctions at the receiver depth, and mode excitation at the source depth.
+Folder 'Canyon_kj/' contains 1) the horizontal wavenumbers k_rj, 2) eigenfunctions at the receiver depth, and 3)  mode excitation at the source depth.
 
 # Internal wave case
 
@@ -35,4 +35,7 @@ Exam4_HRESolver_TransSymtr_internalwaves.m
 
 Note：
 
+Function 'ModeSolver.m' provides the solver for the eigenequation of waterborne modes. This solver can handle the situation where a multi-layered medium is considered. 
+
+Script 'param.m' provides the input to 'ModeSolver.m', which is the protocal where the environment parameters are 
 
