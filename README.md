@@ -35,7 +35,10 @@ Exam4_HRESolver_TransSymtr_internalwaves.m
 
 Note：
 
+This demonstration shows 3D underwater sound propagation in the presence of internal waves. The simulation set-up refers to [SWARM 95](https://pubs.aip.org/asa/jasa/article/117/2/613/541579/Measurement-and-modeling-of-three-dimensional). A 70 m depth waveguide is considered in the code, where the sound speed profile is consist of three layers: an iso-velocity layer on top with a sound speed of 1530 m/s, the thermocline layer with a gradient of 3.33 1/s in the middle, and anthor iso-velocity layer on bottom with a sound speed of 1480 m/s. The depth of the thermocline layer initially starts at 15 m depth without internal waves, whose thickness is 15 m. An internal wave train is simulated with a moving speed of 0.65 m/s, a, and a , traveling at the upper and lower interfaces of the thermocline layer. The 
+
 Function 'ModeSolver.m' provides the solver for the eigenequation of waterborne modes. This solver can handle the situation where a multi-layered medium is considered. 
 
-Script 'param.m' provides the input to 'ModeSolver.m', which is the protocal where the environment parameters are 
+Script 'param.m' provides the input to 'ModeSolver.m', which is the protocal where the environment parameters are given. Comments are provided following each parameter, which is easy to read and understand for others.
+
 
