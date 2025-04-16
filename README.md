@@ -9,17 +9,19 @@ This repository hosts a MATLAB toolkit implementing an adiabatic mode framework 
 
 -- Run MATLAB codes
 
+# ASA wedge and cosine hill cases
+
 Exam1_HRESolver_TransSymtr_ASAwedge.m
 
 Exam2_HRESolver_TransSymtr_CosHill.m
 
-# Note：
+Note：
 
 Folders 'ASA_wedge_kj/' and 'CosHill_kj/' contain the horizontal wavenumbers k_rj, eigenfunctions at the receiver depth, and mode excitation at the source depth for the wedge and canyon examples, respectively, with the reference solution stored in the associated folders. Running Exam1 and Exam2 direclty reproduces the results presented in Figs. 7-13 of the [JSV paper](https://doi.org/10.1016/j.jsv.2024.118617).
 
 Exam3_HRESolver_TransSymtr_Canyon.m
 
-# Note：
+Note：
 
 This demonstration reproduces Figs. 8 and 9 presented in [JASA 2021](https://pubs.aip.org/asa/jasa/article/150/2/1140/615453/A-three-dimensional-finite-difference-model-for) by Liu, et al, which is the 3D propagation over an underwater canyon. This case has also been demonstrated previously in [JASA 2019](https://pubs.aip.org/asa/jasa/article/146/3/2050/995175/Split-step-Pade-solver-for-three-dimensional) and [Appl. Sci 2020](https://www.mdpi.com/2076-3417/10/7/2393). The same parameters and geometry were adopted in this code as in these papers. 
 
