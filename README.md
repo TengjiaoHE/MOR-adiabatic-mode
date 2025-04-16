@@ -19,6 +19,8 @@ Note：
 
 Folders 'ASA_wedge_kj/' and 'CosHill_kj/' contain the horizontal wavenumbers k_rj, eigenfunctions at the receiver depth, and mode excitation at the source depth for the wedge and canyon examples, respectively, with the reference solution stored in the associated folders. Running Exam1 and Exam2 direclty reproduces the results presented in Figs. 7-13 of the [JSV paper](https://doi.org/10.1016/j.jsv.2024.118617).
 
+# Gaussian canyon case
+
 Exam3_HRESolver_TransSymtr_Canyon.m
 
 Note：
@@ -27,8 +29,10 @@ This demonstration reproduces Figs. 8 and 9 presented in [JASA 2021](https://pub
 
 Folder 'Canyon_kj/' contains the horizontal wavenumbers k_rj, eigenfunctions at the receiver depth, and mode excitation at the source depth.
 
+# Internal wave case
+
 Exam4_HRESolver_TransSymtr_internalwaves.m
 
-# Note：
+Note：
 
 
