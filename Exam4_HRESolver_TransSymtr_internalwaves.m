@@ -7,9 +7,9 @@
 %% Author: Tengjiao He 01/01/2024 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% T. He, J. Liu, S. Ye, X. Qing, and S. Mo, A novel model order reduction 
-% technique for solving horizontal refraction equations in the modeling of 
-% three-dimensional underwater acoustic propagation, J. Sound Vib. 
+% T. He, J. Liu, S. Ye, X. Qing, and S. Mo, A novel model order reduction
+% technique for solving horizontal refraction equations in the modeling of
+% three-dimensional underwater acoustic propagation, J. Sound Vib.
 % 591: 118617 (2024)
 
 % Any improvements for the code are welcome and bugs can be reported
@@ -60,7 +60,7 @@ MMadm.hy = h0;
 for j = 1:12
 
     MMadm.hy =  MMadm.hy+10 *sech((MMadm.y-1700-25 - (j-1)*400+dy(1))/70).^2;
-    
+
 end
 
 % parameters of PMLs
@@ -92,26 +92,13 @@ for ii = 1:mmax
     % indexing the position of the source
 
     iy0 = find(MMadm.y>=MMadm.y0,1,'first');
-    % iz0 = find(Mode.z{1}>=zs,1,'first');
 
-    % grazing angle of the vertical mode
-
-    % k0 = 2*pi*f/Mode.c{1}(iz0);
-    k0 = omega/c;
-    kzj = sqrt(k0^2-MMadm.kj(iy0)^2);
-    phij = real(atan(kzj/MMadm.kj(iy0)));
 
     % mode function
 
     vmode = interp1(phizsh(:,1),phizsh(:,ii+1),MMadm.hy);
     vmodez = interp1(phizzsh(:,1),phizzsh(:,ii+1),MMadm.hy);
     vmode_zs = vmode(iy0);
-    vmode_zzs = vmodez(iy0)/kzj;
-
-    % weighting each mode based on the directionality
-
-    MMadm.dir(1,:) = interp2(theta0,phi0.',Dir,theta0,phij)-interp2(theta0,phi0.',Dir,theta0,-phij);
-    MMadm.dir(2,:) = interp2(theta0,phi0.',Dir,theta0,phij)+interp2(theta0,phi0.',Dir,theta0,-phij);
 
     % mode amplitude
 
@@ -123,23 +110,16 @@ for ii = 1:mmax
 
     n = 1:length(kxj);
 
-    k_ref = MMadm.kj(iy0);
-    kyj = sqrt(k_ref^2-kxj.^2);
-    theta = real(atan(kyj./kxj).');
-    
+
     % reconstruction of Rj(x,y) using modal projection phi ---> psi
     Psi_n = sqrt(2/H)*sin(n*pi/H.*yr.');
     Phi_m = Psi_n*U./Nm.';
     Prop = exp(1i*kxj*MMadm.x)./kxj*1i/2;
 
-    for kk = 1:2
 
-        ao = -0.5i*sqrt(2/H)*n*pi/H.*cos(n*pi/H*ys)*U./kyj.'.*(DirFun(theta0,MMadm.dir(kk,:),-theta) - DirFun(theta0,MMadm.dir(kk,:),theta));
-        ae = 0.5*sqrt(2/H)*sin(n*pi/H*ys)*U.*(DirFun(theta0,MMadm.dir(kk,:),-theta) + DirFun(theta0,MMadm.dir(kk,:),theta));
-        Am = ao+ae;
-        Rj(:,:,kk) = 4*pi*(Phi_m.*Am*Prop);
+    Am = sqrt(2/H)*sin(n*pi/H*ys)*U;
+    Rj = 4*pi*(Phi_m.*Am*Prop);
 
-    end
 
     % sweeping the depth
 
@@ -151,7 +131,7 @@ for ii = 1:mmax
         wmode_zr(1:ih1) = wmode_zr(ih1);
         wmode_zr(ih2:end) = wmode_zr(ih2);
 
-        A(:,:,jj) = (-0.5i*vmode_zzs*squeeze(Rj(:,:,1))+0.5*vmode_zs*squeeze(Rj(:,:,2))) .* repmat(wmode_zr,nx,1).';
+        A(:,:,jj) = vmode_zs*Rj .* repmat(wmode_zr,nx,1).';
 
     end
 
@@ -160,7 +140,7 @@ for ii = 1:mmax
     if ii <= 5
 
         subplot(1,5,ii)
-        pcolor(yr/1000,MMadm.x/1000,mag2db(abs(squeeze(Rj(:,:,2))).'));
+        pcolor(yr/1000,MMadm.x/1000,mag2db(abs(Rj).'));
         view(2);
         shading flat;
         h_Colorbar = colorbar;
