@@ -1,2 +1,23 @@
 # MOR-adiabatic-mode
 A MATLAB code for solving HREs in the modeling of 3D underwater acoustic propagation
+The repository contains MATLAB package for the solution of 3D propagation problems of underwater acoustics by mode parabolic equations (MPE) method. Acoustical field is represented in the form of the modal decomposition, and the respective modal amplitudes are obtained by the  technique. This package is a supplementary material to .
+
+INSTALLATION:
+
+-- Download all files into one folder.
+
+EXECUTION
+
+-- Run MATLAB scripts
+
+CPC_ex1_flat_bottom_Greene_starter.m
+
+CPC_ex1_flat_bottom_raystarter.m
+
+CPC_ex1_flat_bottom_sstarter.m
+
+CPC_ex2_wedge_raystarter.m
+
+CPC_ex3_canyon_raystarter.m
+
+Note. Folders 'ASA_wedge_kj/' and 'canyon/' contain wavenumbers k_j and eigenfunction values at z=z_r for the second (wedge) and third (canyon) examples, respectively. Alson the data with reference solutions is stored in these folders.
