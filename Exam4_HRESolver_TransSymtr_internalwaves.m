@@ -68,12 +68,6 @@ end
 MMadm.dpml = 5*lambda; % Thickness of PML
 MMadm.npml = 100; % Num of discretization points for PML
 
-% source horizontal directionaltiy
-
-theta0 = linspace(-pi/2,pi/2,181);
-phi0 = linspace(-pi/2,pi/2,91).';
-Dir = ones(length(phi0), length(theta0));
-
 
 p = 0; A = zeros(ny,nx,nz); Rj = zeros(ny,nx,2);
 
