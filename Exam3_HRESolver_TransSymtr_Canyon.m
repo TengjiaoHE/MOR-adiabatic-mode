@@ -39,7 +39,7 @@ Node.x = linspace(0,xmax,nx); % Propagation range grids
 % wavenumbers for various values of water depth
 kh = dlmread('Canyon_kj/kj_canyon_att.txt');
 
-% mode eigenfunctions at z = z_s = 40 m for various values of water depth
+% mode eigenfunctions at z = z_s = 30 m for various values of water depth
 phizsh = dlmread('Canyon_kj/phizs_canyon.txt');
 
 % mode eigenfunctions at z = z_r = 30 m for various values of water depth
