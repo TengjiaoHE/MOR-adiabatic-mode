@@ -29,12 +29,12 @@ lambda = c/f;
 % x- and y- grids initialization
 ymax = 8000; % Maximal of transverse range
 ny = 4096; % Num of discretization points for transverse range
-Node.y = linspace(0,ymax,ny); % Transverse range grids
-Node.y0 = 2000; % Source position on the y-axis
+MORparam.y = linspace(0,ymax,ny); % Transverse range grids
+MORparam.y0 = 2000; % Source position on the y-axis
 
 xmax = 20000; % Maximal of propagation range
 nx = 1024; % Num of discretization points for transverse range
-Node.x = linspace(0,xmax,nx); % Propagation range grids
+MORparam.x = linspace(0,xmax,nx); % Propagation range grids
 
 % wavenumbers for various values of water depth
 kh = dlmread('CosHill_kj/kj_cos_att.txt');
@@ -49,13 +49,13 @@ mmax = 6; % Num of vertical modes
 
 % geometry of seafloor (a cosine hill)
 h0 = 60;
-Node.hy = h0 * ones(1,length(Node.y));
-ihill = Node.y<=3250+Node.y0&Node.y>=2750+Node.y0;
-Node.hy(ihill) = 47.5-12.5*cos(2*pi*Node.y(ihill)/500);
+MORparam.hy = h0 * ones(1,length(MORparam.y));
+ihill = MORparam.y<=3250+MORparam.y0&MORparam.y>=2750+MORparam.y0;
+MORparam.hy(ihill) = 47.5-12.5*cos(2*pi*MORparam.y(ihill)/500);
 
 % parameters of PMLs
-Node.dpml = 5*lambda; % Thickness of PML
-Node.npml = 100; % Num of discretization points for PML
+MORparam.dpml = 5*lambda; % Thickness of PML
+MORparam.npml = 100; % Num of discretization points for PML
 
 p = 0;
 
@@ -67,25 +67,25 @@ for ii = 1:mmax
 
     disp(['Solving modal coefficients: ' int2str(ii)  ' of ' int2str(mmax)  ' modes'] );
     
-    Node.kj = interp1(kh(:,1),kh(:,ii+1),Node.hy);
-    ih1 = find(Node.hy>=kh(end,1),1,'first');
-    ih2 = find(Node.hy<=kh(1,1),1,'last');
-    iy0 = find(Node.y>=Node.y0,1,'first');
-    Node.kj(1:ih1) = Node.kj(ih1);
-    Node.kj(ih2:end) = Node.kj(ih2);
-    Node.kj_m = max(max(real(Node.kj)));
+    MORparam.kj = interp1(kh(:,1),kh(:,ii+1),MORparam.hy);
+    ih1 = find(MORparam.hy>=kh(end,1),1,'first');
+    ih2 = find(MORparam.hy<=kh(1,1),1,'last');
+    iy0 = find(MORparam.y>=MORparam.y0,1,'first');
+    MORparam.kj(1:ih1) = MORparam.kj(ih1);
+    MORparam.kj(ih2:end) = MORparam.kj(ih2);
+    MORparam.kj_m = max(max(real(MORparam.kj)));
     
     % excitation of vertical modes
-    vmode(1:length(Node.y),1) = interp1(phizsh(:,1),phizsh(:,ii+1),Node.hy);
+    vmode(1:length(MORparam.y),1) = interp1(phizsh(:,1),phizsh(:,ii+1),MORparam.hy);
     vmode_zs = vmode(iy0);
     
     % solving transverse eigenproblems for transverse eigenfunctions Phi
-    [~,H,kxj,A,Nm] = TransEigSolver(f,Node,1);
+    [~,H,kxj,A,Nm] = TransEigSolver(f,MORparam,1);
 
 
-    ys = Node.y0+Node.dpml; % y-axis of the source
-    yr = linspace(Node.dpml,ymax+Node.dpml,ny); % y-axis of the receiver
-    hyr = interp1(Node.y,Node.hy,yr-Node.dpml);
+    ys = MORparam.y0+MORparam.dpml; % y-axis of the source
+    yr = linspace(MORparam.dpml,ymax+MORparam.dpml,ny); % y-axis of the receiver
+    hyr = interp1(MORparam.y,MORparam.hy,yr-MORparam.dpml);
 
     % vertical mode shape
     vmoder(1:length(hyr),1) = interp1(phizrh(:,1),phizrh(:,ii+1),hyr); 
@@ -99,7 +99,7 @@ for ii = 1:mmax
     psi_n = sqrt(2/H)*sin((n)*pi/H.*yr.'); % Transverse basis modes psi_n
     phi_m = (psi_n)*(A); % Transverse eigenfunctons phi_m
     Am = sqrt(2/H)*sin((n)*pi/H*ys)*(A)./Nm.';
-    Prop = exp(1i*kxj*Node.x)./(kxj)*1i/2;
+    Prop = exp(1i*kxj*MORparam.x)./(kxj)*1i/2;
     Rj = 4*pi*(phi_m.*Am*Prop); % Coefficients of vertical modes
     
     % summation of vertical modes
@@ -109,7 +109,7 @@ for ii = 1:mmax
     if ii <= 5
 
         subplot(1,5,ii)
-        pcolor(yr/1000,Node.x/1000,mag2db(abs(vmode_zs *Rj).'));
+        pcolor(yr/1000,MORparam.x/1000,mag2db(abs(vmode_zs *Rj).'));
         view(2);
         shading flat;
         caxis( [-70, -30] );
@@ -145,7 +145,7 @@ tlt = -20*log10(abs( p ));
 
 h_fig = figure;
 set(h_fig,'position',[500 250 900 350])
-pcolor(Node.x/1000,Node.y/1000,tlt);
+pcolor(MORparam.x/1000,MORparam.y/1000,tlt);
 view(2);
 set(gca,'ydir','reverse') ;
 % colormap(flipud(turbo))
@@ -167,11 +167,11 @@ iy0 = find(yr>=ys+5000,1,'first');
 TLtrack = tlt(iy0,:);
 figure;
 hold all;
-plot(Node.x/1000,TLtrack,'k.','MarkerSize',3);
+plot(MORparam.x/1000,TLtrack,'k.','MarkerSize',3);
 xlabel('x, km');
 ylabel('TL, dB');
 set(gca,'FontSize',12)
-xlim([0 Node.x(end)/1000])
+xlim([0 MORparam.x(end)/1000])
 ylim([40 100])
 set( gca, 'YDir', 'Reverse' )
 set(gca, 'Box', 'off', 'TickDir', 'out', 'TickLength', [.02 .02], ...
